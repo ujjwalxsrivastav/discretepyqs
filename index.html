@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discrete Structures | Master Question Bank</title>
+    <!-- UI is intentionally kept IDENTICAL to budget.html -->
+    <style>
+        /* ===== SAME DESIGN SYSTEM AS budget.html ===== */
+        :root {
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --primary: #0f172a;
+            --accent: #10b981;
+            --muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: Inter, system-ui;
+            background: var(--bg);
+            color: var(--primary);
+            height: 100vh;
+            overflow: hidden
+        }
+
+        #app {
+            display: flex;
+            height: 100vh
+        }
+
+        aside {
+            width: 280px;
+            background: var(--primary);
+            color: #fff;
+            padding: 28px;
+            display: flex;
+            flex-direction: column
+        }
+
+        aside h1 {
+            font-size: 1.4rem;
+            margin-bottom: 6px
+        }
+
+        aside p {
+            font-size: .8rem;
+            opacity: .6;
+            margin-bottom: 30px
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #94a3b8;
+            font-size: .95rem
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: var(--accent);
+            color: #fff
+        }
+
+        main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 30px
+        }
+
+        .header h2 {
+            font-size: 1.8rem
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, .05)
+        }
+
+        .tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 14px
+        }
+
+        .tag {
+            font-size: .65rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px
+        }
+
+        .unit {
+            background: #f1f5f9;
+            color: #475569
+        }
+
+        .hot {
+            background: #fff1f2;
+            color: #be123c
+        }
+
+        .diff-easy {
+            background: #ecfeff;
+            color: #0369a1
+        }
+
+        .diff-med {
+            background: #fefce8;
+            color: #854d0e
+        }
+
+        .diff-hard {
+            background: #fef2f2;
+            color: #991b1b
+        }
+
+        .q {
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 18px
+        }
+
+        .meta {
+            font-size: .8rem;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+            padding-top: 12px;
+            display: flex;
+            justify-content: space-between
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <aside>
+            <h1>Discrete Structures</h1>
+            <p>Master Question Bank (2022–25)</p>
+            <div class="nav">
+                <div class="nav-item active" onclick="filter('all',this)">All Questions</div>
+                <div class="nav-item" onclick="filter('hot',this)">🔥 Most Repeated</div>
+                <div class="nav-item" onclick="filter(1,this)">Unit 1 – Sets & Functions</div>
+                <div class="nav-item" onclick="filter(2,this)">Unit 2 – Logic & Lattices</div>
+                <div class="nav-item" onclick="filter(3,this)">Unit 3 – Combinatorics</div>
+                <div class="nav-item" onclick="filter(4,this)">Unit 4 – Algebraic Structures</div>
+                <div class="nav-item" onclick="filter(5,this)">Unit 5 – Graph Theory</div>
+            </div>
+        </aside>
+        <main>
+            <div class="header">
+                <h2 id="title">All Questions</h2>
+                <div id="count"></div>
+            </div>
+            <div id="grid" class="grid"></div>
+        </main>
+    </div>
+    <script>
+        /* ===== DATABASE: ALL 82 QUESTIONS – NO SOLUTIONS ===== */
+        const Q = [
+            // ===================== UNIT 1 : SET THEORY & FUNCTIONS =====================
+            { u: 1, q: "If A={1,2,3} and B={2,3,4}, show that {(1,2),(1,3),(3,4)} is not a function from A to B.", p: "2024–25 Odd", no: "Q1(a)(i)", m: 5, d: "Easy", r: 1 },
+            { u: 1, q: "Define many-one function and prove that f(x)=x^2 is a many-one function where x is a real number.", p: "2024–25 Odd", no: "Q1(a)(ii)", m: 5, d: "Easy", r: 1 },
+            { u: 1, q: "Prove that A − (B ∪ C) = (A − B) ∪ (A − C).", p: "2024–25 Odd, 2023–24 Odd", no: "Q1(b)", m: 10, d: "Medium", r: 2 },
+            { u: 1, q: "If R and S are equivalence relations on set A, prove that R ∩ S is also an equivalence relation on A.", p: "2024–25 Odd", no: "Q1(c)", m: 10, d: "Medium", r: 1 },
+            { u: 1, q: "If f:A→B is injective show that |A| ≤ |B| and if f is surjective show that |B| ≤ |A|.", p: "2023–24 Odd", no: "Q1(a)", m: 10, d: "Medium", r: 1 },
+            { u: 1, q: "Using mathematical induction prove that 1^2+2^2+3^2+…+n^2 = n(n+1)(2n+1)/6.", p: "2023–24 Odd, 2022–23", no: "Q1(b)", m: 10, d: "Medium", r: 2 },
+            { u: 1, q: "Let f:A→B and g:B→C be surjections. Prove that g∘f:A→C is also surjective.", p: "2023–24 Odd", no: "Q1(c)", m: 10, d: "Easy", r: 1 },
+            { u: 1, q: "Show that the mapping f:R→R defined by f(x)=ax+b, a≠0, is invertible.", p: "2023–24 Odd", no: "Q1(d)", m: 5, d: "Easy", r: 1 },
+            { u: 1, q: "For any three sets A, B and C prove that A − (B ∩ C) = (A − B) ∪ (A − C).", p: "2023–24 Odd, 2022–23", no: "Q1(e)", m: 10, d: "Medium", r: 2 },
+            { u: 1, q: "Define multisets. Also define union, sum, intersection and difference of multisets.", p: "2023–24 Odd", no: "Q1(f)", m: 10, d: "Easy", r: 1 },
+            { u: 1, q: "Define relation. How many relations are possible on a set with n elements?", p: "2022–23", no: "Q1(b)", m: 10, d: "Medium", r: 1 },
+            { u: 1, q: "Explain all set operations with suitable examples.", p: "2022–23", no: "Q1(d)", m: 10, d: "Easy", r: 1 },
+            { u: 1, q: "Define function with example. If f1(x)=x^2 and f2(x)=x−x^2, find f1+f2 and f1f2.", p: "2022–23", no: "Q1(e)", m: 10, d: "Easy", r: 1 },
+            { u: 1, q: "Prove that if there exists a surjective function f:A→B then |B| ≤ |A|. If f is bijective then |A|=|B|.", p: "2022–23", no: "Q1(f)", m: 10, d: "Medium", r: 1 },
+
+            { u: 1, q: "Find the power set of the set S = {x : x is a prime number and x < 8}.", p: "2024–25 Odd", no: "Q1(a)(ii)", m: 5, d: "Easy", r: 1 },
+            { u: 1, q: "Let A={1,2,3,4,5,6} and R be a relation on A defined by 'x divides y'. (i) Write R as a set of ordered pairs (ii) Draw the directed graph (iii) Give matrix representation (iv) Check whether R is an equivalence relation.", p: "2024–25 Odd", no: "Q1(b)", m: 10, d: "Medium", r: 1 },
+            { u: 1, q: "Let f be a function from {a,b,c,d} to {1,2,3,4} with f(a)=4, f(b)=2, f(c)=1, f(d)=3. Investigate whether f is bijective or not.", p: "2024–25 Odd", no: "Q1(c)", m: 5, d: "Easy", r: 1 },
+            { u: 1, q: "Prove by mathematical induction that 1^2+3^2+5^2+…+(2n-1)^2 = n(2n-1)(2n+1)/3.", p: "2024–25 Odd", no: "Q1(c)", m: 5, d: "Medium", r: 1 },
+            { u: 1, q: "Consider the functions f:R→R defined by f(x)=2x+5 and g(x)=(x-5)/2. Prove that g is the inverse of f.", p: "2024–25 Odd", no: "Q1(a)(i)", m: 5, d: "Easy", r: 1 },
+            { u: 1, q: "Define Cartesian product of two sets. Find A×B and B×A for A={1,2} and B={a,b,c}.", p: "2022–23", no: "Q1(a)", m: 10, d: "Easy", r: 1 },
+            { u: 1, q: "Explain different types of relations with suitable examples.", p: "2022–23", no: "Q1(c)", m: 10, d: "Easy", r: 1 },
+
+            // ===================== UNIT 2 : LOGIC, POSETS & LATTICES =====================
+            { u: 2, q: "Using truth table and propositional algebra show that p ↔ (p∨q) ⇒ (p∧q).", p: "2024–25 Odd", no: "Q2(a)(i)", m: 5, d: "Medium", r: 1 },
+            { u: 2, q: "Prove that [p↔q] ≡ [(p⇒q) ∧ (q⇒p)].", p: "2024–25 Odd", no: "Q2(a)(ii)", m: 5, d: "Easy", r: 1 },
+            { u: 2, q: "State and prove De Morgan’s laws of propositional logic.", p: "2024–25 Odd, 2023–24 Odd, 2022–23", no: "Q2(b)", m: 10, d: "Easy", r: 3 },
+            { u: 2, q: "Prove that [(p⇒q) ∧ p] ⇒ q is a tautology.", p: "2024–25 Odd", no: "Q2(c)", m: 10, d: "Easy", r: 1 },
+            { u: 2, q: "Prove that ¬(p∧q) ∨ q is a tautology.", p: "2023–24 Odd", no: "Q2(a)", m: 10, d: "Easy", r: 1 },
+            { u: 2, q: "Prove that intersection of two sublattices is also a sublattice.", p: "2023–24 Odd", no: "Q2(b)", m: 10, d: "Medium", r: 1 },
+            { u: 2, q: "Show that two bounded lattices A and B are complemented iff A×B is complemented.", p: "2023–24 Odd", no: "Q2(c)", m: 10, d: "Hard", r: 1 },
+            { u: 2, q: "Determine whether the following are tautology, contradiction or contingency: (i) p→(p→q) (ii) p→(q→p) (iii) p∧¬p.", p: "2023–24 Odd", no: "Q2(d)", m: 10, d: "Easy", r: 1 },
+            { u: 2, q: "For the poset A=({1,2,3,4,6,9,12,18,36}, | ), find LUB and GLB of {6,18} and {4,6,9}.", p: "2023–24 Odd", no: "Q2(e)", m: 10, d: "Medium", r: 1 },
+            { u: 2, q: "If L is a lattice, prove that a∨(b∨c)=(a∨b)∨c for all a,b,c∈L.", p: "2023–24 Odd", no: "Q2(f)", m: 10, d: "Easy", r: 1 },
+            { u: 2, q: "Define proposition with examples and find negation of given statements.", p: "2022–23", no: "Q2(a)", m: 10, d: "Easy", r: 1 },
+            { u: 2, q: "Define quantifiers and translate given quantified statement into English.", p: "2022–23", no: "Q2(d)", m: 10, d: "Medium", r: 1 },
+            { u: 2, q: "Prove that if α² is even then α is even.", p: "2022–23", no: "Q2(e)", m: 5, d: "Easy", r: 1 },
+
+            { u: 2, q: "Find the converse, inverse and contrapositive of the statement: 'The home team wins whenever it is raining'.", p: "2022–23", no: "Q2(b)", m: 10, d: "Easy", r: 1 },
+            { u: 2, q: "Check whether the argument is valid: Premises: P∨Q, Q→R, P→M, ¬M. Conclusion: R.", p: "2024–25 Odd", no: "Q2(a)(i)", m: 5, d: "Medium", r: 1 },
+            { u: 2, q: "Check whether the posets ({1,3,6,9}, |) and ({1,5,25,125}, |) are lattices or not.", p: "2024–25 Odd", no: "Q2(a)(ii)", m: 5, d: "Medium", r: 1 },
+            { u: 2, q: "Define partially ordered set (POSET). Draw the Hasse diagram for the set of positive divisors of 36 and find minimal, maximal, greatest and least elements.", p: "2022–23", no: "Q3(b)", m: 10, d: "Medium", r: 1 },
+            { u: 2, q: "Prove that the relation R on a set A is transitive if and only if R^n ⊆ R for n=1,2,3,….", p: "2022–23", no: "Q1(c)", m: 10, d: "Hard", r: 1 },
+            { u: 2, q: "Prove logical equivalence using laws of logic: (p∨q)↔(q∨p).", p: "2022–23", no: "Q2(c)", m: 5, d: "Easy", r: 1 },
+
+            // ===================== UNIT 3 : COMBINATORICS & RECURRENCE =====================
+            { u: 3, q: "How many 11-letter words can be formed using the letters of the word INSTITUTION?", p: "2023–24 Odd", no: "Q3(b)(i)", m: 5, d: "Medium", r: 1 },
+            { u: 3, q: "Prove that C(n,r)=C(n−1,r)+C(n−1,r−1).", p: "2023–24 Odd", no: "Q3(b)(ii)", m: 5, d: "Easy", r: 1 },
+            { u: 3, q: "Using principle of inclusion and exclusion determine integers not divisible by 5,7 and 9 among first 1000 integers.", p: "2023–24 Odd", no: "Q3(c)", m: 10, d: "Medium", r: 1 },
+            { u: 3, q: "Solve the recurrence relation a_{r+2}−5a_{r+1}+6a_r=2 using generating functions with a0=1, a1=2.", p: "2023–24 Odd", no: "Q3(a)", m: 10, d: "Hard", r: 1 },
+            { u: 3, q: "Illustrate pigeonhole principle and show that if 7 colors are used to paint 50 bicycles then at least 8 bicycles are of same color.", p: "2024–25 Odd", no: "Q3(b)", m: 10, d: "Easy", r: 1 },
+            { u: 3, q: "In how many ways can the letters of MATHEMATICAL be arranged?", p: "2024–25 Odd", no: "Q3(b)", m: 10, d: "Medium", r: 1 },
+            { u: 3, q: "How many cards must be selected from a deck of 52 cards to guarantee at least 3 cards of the same suit?", p: "2024–25 Odd", no: "Q3(b)", m: 10, d: "Easy", r: 1 },
+            { u: 3, q: "Solve the recurrence relation for the Fibonacci sequence 1,1,2,3,5,8,…", p: "2024–25 Odd", no: "Q3(a)(ii)", m: 5, d: "Easy", r: 1 },
+            { u: 3, q: "Find all solutions of the recurrence relation a_n = 3a_{n−1}+2^n with a1=3.", p: "2022–23", no: "Q5(a)", m: 10, d: "Medium", r: 1 },
+            { u: 3, q: "Prove the pigeonhole principle and find minimum number of students to ensure at least six get same grade if five grades exist.", p: "2022–23", no: "Q5(b)", m: 10, d: "Easy", r: 1 },
+
+            { u: 3, q: "Among 1232 students taking Spanish, 879 French, and 114 Russian courses, given overlaps, find how many students have taken all three languages using the principle of inclusion and exclusion.", p: "2024–25 Odd", no: "Q3(a)(i)", m: 5, d: "Medium", r: 1 },
+            { u: 3, q: "Show that if any 20 people are selected, then there exists a subset of 3 who were born on the same day of the week.", p: "2024–25 Odd", no: "Q3(a)(ii)", m: 5, d: "Easy", r: 1 },
+            { u: 3, q: "Solve the recurrence relation a_n − a_{n−1} − 2a_{n−2} = 0 with a_0=2 and a_1=10.", p: "2024–25 Odd", no: "Q5(a)(ii)", m: 5, d: "Medium", r: 1 },
+            { u: 3, q: "If nPr = nP(r+1) and nCr = nC(r−1), find the values of n and r.", p: "2024–25 Odd", no: "Q5(b)", m: 10, d: "Medium", r: 1 },
+            { u: 3, q: "Show that if any five integers are chosen from 1 to 8, then at least two of them have a sum equal to 9.", p: "2024–25 Odd", no: "Q5(c)", m: 10, d: "Easy", r: 1 },
+            { u: 3, q: "Using generating functions, solve the recurrence relation a_{r+2}−5a_{r+1}+6a_r=0.", p: "2023–24 Odd", no: "Q3(a)", m: 10, d: "Hard", r: 1 },
+
+            // ===================== UNIT 4 : ALGEBRAIC STRUCTURES =====================
+            { u: 4, q: "Define group and subgroup. Prove that order of a subgroup divides order of the group.", p: "2024–25 Odd", no: "Q4(a)(ii)", m: 5, d: "Medium", r: 1 },
+            { u: 4, q: "Show that the set {0,1,2,3,4,5,6} is an abelian group under addition modulo 7.", p: "2024–25 Odd", no: "Q4(a)(ii)", m: 5, d: "Easy", r: 1 },
+            { u: 4, q: "Show that the set of all even integers including zero is an abelian group under addition.", p: "2024–25 Odd", no: "Q4(b)", m: 10, d: "Easy", r: 1 },
+            { u: 4, q: "Prove that if inverse of a is a⁻¹ then inverse of a⁻¹ is a.", p: "2024–25 Odd", no: "Q4(c)", m: 10, d: "Easy", r: 1 },
+            { u: 4, q: "Show that mapping g:R⁺→R defined by g(x)=log x is an isomorphism.", p: "2023–24 Odd", no: "Q4(a)", m: 10, d: "Medium", r: 1 },
+            { u: 4, q: "Prove that set of all positive rational numbers under operation a*b = ab/2 forms a group.", p: "2023–24 Odd", no: "Q4(b)", m: 10, d: "Medium", r: 1 },
+            { u: 4, q: "Show that a commutative ring R is an integral domain iff ab=ac (a≠0) implies b=c.", p: "2023–24 Odd", no: "Q4(c)", m: 10, d: "Medium", r: 1 },
+            { u: 4, q: "Show that G={1,−1,i,−i} is an abelian group under multiplication.", p: "2022–23, 2024–25 Odd", no: "Q4(a)", m: 10, d: "Easy", r: 2 },
+            { u: 4, q: "Explain ring, integral domain and field. Show that Z7 is a ring under addition and multiplication modulo 7.", p: "2022–23", no: "Q4(c)", m: 10, d: "Medium", r: 1 },
+
+            { u: 4, q: "Define cyclic group. Find the generators of Z4 and determine whether (Z4,+) is a cyclic group.", p: "2024–25 Odd", no: "Q4(c)", m: 10, d: "Medium", r: 1 },
+            { u: 4, q: "Find the order of every element in the multiplicative group G={x,x^2,x^3,x^4,x^5,x^6}, where x^6=e.", p: "2024–25 Odd", no: "Q4(c)", m: 10, d: "Medium", r: 1 },
+            { u: 4, q: "Define monoid and semigroup with suitable examples.", p: "2022–23", no: "Q4(a)", m: 10, d: "Easy", r: 1 },
+            { u: 4, q: "Define normal subgroup. Give an example.", p: "2022–23", no: "Q4(b)", m: 5, d: "Easy", r: 1 },
+            { u: 4, q: "Define homomorphism and automorphism of a group with examples.", p: "2022–23", no: "Q4(b)", m: 10, d: "Medium", r: 1 },
+
+            // ===================== UNIT 5 : GRAPHS & TREES =====================
+            { u: 5, q: "Apply Dijkstra’s algorithm to find shortest path in the given weighted graph.", p: "2023–24 Odd", no: "Q5(a)", m: 10, d: "Medium", r: 1 },
+            { u: 5, q: "If a linear graph has exactly one path between any two vertices, prove that it is a tree and conversely.", p: "2023–24 Odd", no: "Q5(b)", m: 10, d: "Easy", r: 1 },
+            { u: 5, q: "For a connected planar graph with v vertices and e edges prove that r=e−v+2.", p: "2023–24 Odd", no: "Q5(c)", m: 10, d: "Medium", r: 1 },
+            { u: 5, q: "How many edges does a graph have if degrees of vertices are 5,2,2,2,2,1? Draw the graph.", p: "2024–25 Odd", no: "Q5(a)(i)", m: 5, d: "Easy", r: 1 },
+            { u: 5, q: "Define regular graph. Can a complete graph be regular?", p: "2024–25 Odd", no: "Q5(a)(ii)", m: 5, d: "Easy", r: 1 },
+            { u: 5, q: "Examine whether the given pair of graphs are isomorphic or not.", p: "2024–25 Odd", no: "Q5(b)", m: 10, d: "Medium", r: 1 },
+            { u: 5, q: "Write properties of trees. Define spanning tree and explain DFS traversal algorithm.", p: "2024–25 Odd", no: "Q5(c)", m: 10, d: "Medium", r: 1 },
+            { u: 5, q: "Prove that an undirected graph has an even number of vertices of odd degree.", p: "2022–23", no: "Q5(c)", m: 10, d: "Easy", r: 1 },
+            { u: 5, q: "Define Euler path and Euler circuit. State and prove necessary and sufficient conditions for existence of an Euler circuit.", p: "2022–23", no: "Q5(a)", m: 10, d: "Medium", r: 1 },
+            { u: 5, q: "Define Hamilton path and Hamilton circuit. Distinguish between Eulerian and Hamiltonian graphs.", p: "2022–23", no: "Q5(b)", m: 10, d: "Medium", r: 1 },
+            { u: 5, q: "Define cut vertex and bridge. Explain with suitable examples.", p: "2023–24 Odd", no: "Q5(b)", m: 10, d: "Medium", r: 1 },
+            { u: 5, q: "Define graph homomorphism. Give examples of homomorphic graphs.", p: "2023–24 Odd", no: "Q5(c)", m: 10, d: "Easy", r: 1 },
+            { u: 5, q: "Define binary tree. Explain inorder, preorder and postorder traversals.", p: "2024–25 Odd", no: "Q5(c)", m: 10, d: "Easy", r: 1 }
+        ];
+
+        // === DOM ELEMENTS ===
+        const grid = document.getElementById('grid');
+        const titleEl = document.getElementById('title');
+        const countEl = document.getElementById('count');
+
+        // === FILTER FUNCTION ===
+        function filter(type, btn) {
+            // Update active nav
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+
+            let filtered = [];
+            let title = '';
+
+            if (type === 'all') {
+                filtered = Q;
+                title = 'All Questions';
+            } else if (type === 'hot') {
+                filtered = Q.filter(q => q.r > 1);
+                title = '🔥 Most Repeated';
+            } else {
+                filtered = Q.filter(q => q.u === type);
+                const unitNames = {
+                    1: 'Sets & Functions',
+                    2: 'Logic & Lattices',
+                    3: 'Combinatorics',
+                    4: 'Algebraic Structures',
+                    5: 'Graph Theory'
+                };
+                title = `Unit ${type} – ${unitNames[type]}`;
+            }
+
+            render(filtered);
+            titleEl.textContent = title;
+            countEl.textContent = `${filtered.length} Questions`;
+        }
+
+        // === RENDER CARDS ===
+        function render(data) {
+            grid.innerHTML = '';
+            data.forEach((item, i) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.style.animation = `fadeIn 0.4s ease ${i * 0.03}s backwards`;
+
+                // Build tags
+                let tags = `<span class="tag unit">Unit ${item.u}</span>`;
+                if (item.r > 1) tags += `<span class="tag hot">Repeated ${item.r}x</span>`;
+
+                const diffClass = item.d === 'Easy' ? 'diff-easy' : item.d === 'Medium' ? 'diff-med' : 'diff-hard';
+                tags += `<span class="tag ${diffClass}">${item.d}</span>`;
+
+                card.innerHTML = `
+                    <div class="tags">${tags}</div>
+                    <div class="q">${item.q}</div>
+                    <div class="meta">
+                        <span>${item.p}</span>
+                        <span>${item.m} Marks</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // === INIT ===
+        render(Q);
+        countEl.textContent = `${Q.length} Questions`;
+
+        // Add animation keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(12px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+                border-color: var(--accent);
+                transition: all 0.3s ease;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+
+</html>
